@@ -150,7 +150,6 @@ export class App extends gfx.GfxApp
             // Add the first ballet dance motion
             this.balletDanceMotions.push(gfx.AnimationLoader.loadAMC('./assets/data/05_02.amc', this.balletCharacter));
 
-
             // PART 4.1: Add special motions 2-5 on your own.
             // You can pick your own motions from the CMU mocap database or you can use the same
             // dance moves that we did. These files are located in the public/assets/data folder.
@@ -165,8 +164,11 @@ export class App extends gfx.GfxApp
             // animations are played in order 1-5.
             //
             // Don't forget to trim the animations similar to the other clips below.
-
-
+            this.balletDanceMotions.push(gfx.AnimationLoader.loadAMC('./assets/data/02_05.amc', this.balletCharacter));
+            this.balletDanceMotions.push(gfx.AnimationLoader.loadAMC('./assets/data/02_06.amc', this.balletCharacter));
+            this.balletDanceMotions.push(gfx.AnimationLoader.loadAMC('./assets/data/02_07.amc', this.balletCharacter));
+            this.balletDanceMotions.push(gfx.AnimationLoader.loadAMC('./assets/data/02_08.amc', this.balletCharacter));
+            
         }
         else if(this.state == AppState.LOADING_ANIMATIONS && this.assetManager.allAssetsLoaded())
         {
@@ -196,7 +198,11 @@ export class App extends gfx.GfxApp
             // When you're done, play each  clip and make sure:
             // - there is no "idle" time at the start or end of each clip
             // - the character stays on screen when you play each motion in sequence
-
+            this.balletDanceMotions[0].trimFront(240);
+            this.balletDanceMotions[0].trimBack(120);
+            //clip 1 does not have any idling  
+            this.balletDanceMotions[2].trimFront(120);
+            this.balletDanceMotions[2].trimBack(120);
 
             // Set the scene and create the geometry for the animated characters
             this.changeScene();
@@ -309,6 +315,10 @@ export class App extends gfx.GfxApp
     {
 
         // PART 4.3: Overlay the animation, similar to motion 1.
+        if(this.state == AppState.ANIMATING_CHARACTERS && this.balletCharacter.visible) {
+            this.balletCharacter.animationController.overlay(this.balletDanceMotions[1], 100);
+            console.log('Queueing motion 2; queue size is: ' + this.balletCharacter.animationController.getQueueCount());
+        }
         
     }
 
@@ -317,7 +327,10 @@ export class App extends gfx.GfxApp
     {
 
         // PART 4.3: Overlay the animation, similar to motion 1.
-
+        if(this.state == AppState.ANIMATING_CHARACTERS && this.balletCharacter.visible) {
+            this.balletCharacter.animationController.overlay(this.balletDanceMotions[2], 100);
+            console.log('Queueing motion 3; queue size is: ' + this.balletCharacter.animationController.getQueueCount());
+        }
     }
 
 
@@ -325,7 +338,10 @@ export class App extends gfx.GfxApp
     {
 
         // PART 4.3: Overlay the animation, similar to motion 1.
-
+        if(this.state == AppState.ANIMATING_CHARACTERS && this.balletCharacter.visible) {
+            this.balletCharacter.animationController.overlay(this.balletDanceMotions[3], 100);
+            console.log('Queueing motion 4; queue size is: ' + this.balletCharacter.animationController.getQueueCount());
+        }
     }
 
 
@@ -333,6 +349,9 @@ export class App extends gfx.GfxApp
     {
 
         // PART 4.3: Overlay the animation, similar to motion 1.
-
+        if(this.state == AppState.ANIMATING_CHARACTERS && this.balletCharacter.visible) {
+            this.balletCharacter.animationController.overlay(this.balletDanceMotions[4], 100);
+            console.log('Queueing motion 5; queue size is: ' + this.balletCharacter.animationController.getQueueCount());
+        }
     }
 }

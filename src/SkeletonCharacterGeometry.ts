@@ -40,6 +40,21 @@ export class SkeletonCharacterGeometry
         // and translate it so the bones look like a skeleton. When this part is
         // complete, the skeleton should show representations of every bone, and
         // there should not be gaps between bones.
+        const cyl = gfx.Geometry3Factory.createCylinder();
+        const S = gfx.Matrix4.makeScale(new gfx.Vector3(0.01, bone.length, 0.01));
+        const R = gfx.Matrix4.makeAlign(new gfx.Vector3(0, 1, 0), bone.direction);
+        const T = gfx.Matrix4.makeTranslation(new gfx.Vector3(0, -bone.length/2, 0));
+        const M = gfx.Matrix4.multiplyAll(R, T, S);
+        cyl.setLocalToParentMatrix(M, false);
+
+        bone.add(cyl);
+
+        bone.children.forEach((child: gfx.Node3) => {
+            if(child instanceof gfx.Bone)
+                this.createGeometryRecursive(child);
+        });
+        
+        
 
     }
 }
